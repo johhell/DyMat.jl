@@ -12,8 +12,10 @@ function strMatNormalNEW(a)
     ret = Vector{String}()
     for s in a
         s = replace(s,"\0" => "" )
+        s = replace(s," " => "" )
         push!(ret,s)
     end
+@show ret
     ret
 end
 
@@ -22,13 +24,15 @@ function strMatTransNEW(a)
     z2 = length(a[1])
     aVec = Vector{UInt8}(join(a))
     aMat = reshape(aVec,z2,z1)
-#     printstyled("sa = $(length(aVec))   $(z1)   $(z2)    $(size(aMat))\n",color=:blue)
+# printstyled("sa = $(length(aVec))   $(z1)   $(z2)    $(size(aMat))\n",color=:blue)
     ret = Vector{String}()
     for i  = 1:z2
         s1 = String(aMat[i,:])
         s2 = replace(s1,"\0" => "" )
-        push!(ret,s2)
+        s3 = replace(s2," " => "" )
+        push!(ret,s3)
     end
+# @show ret
     ret
 end
 

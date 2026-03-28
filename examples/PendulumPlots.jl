@@ -2,7 +2,7 @@ using DyMat
 using Plots
 
 #Create the object for storing data from *.mat file
-dyMat = DyMatFile("test/DoublePendulum_Dymola-7.4.mat")
+dyMat = DyMatFile("../test/DoublePendulum_Dymola-7.4.mat")
 
 #Check variable names 
 names = getNames(dyMat)
