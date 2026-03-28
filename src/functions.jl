@@ -1,9 +1,35 @@
+
 function strMatNormal(a)
     return [strip(join(s)) for s in a]
 end
 
 function strMatTrans(a)
     return [strip(join(s)) for s in zip(a...)]
+end
+
+
+function strMatNormalNEW(a)
+    ret = Vector{String}()
+    for s in a
+        s = replace(s,"\0" => "" )
+        push!(ret,s)
+    end
+    ret
+end
+
+function strMatTransNEW(a)
+    z1 = length(a)
+    z2 = length(a[1])
+    aVec = Vector{UInt8}(join(a))
+    aMat = reshape(aVec,z2,z1)
+#     printstyled("sa = $(length(aVec))   $(z1)   $(z2)    $(size(aMat))\n",color=:blue)
+    ret = Vector{String}()
+    for i  = 1:z2
+        s1 = String(aMat[i,:])
+        s2 = replace(s1,"\0" => "" )
+        push!(ret,s2)
+    end
+    ret
 end
 
 function sign(x)
@@ -27,7 +53,7 @@ function DyMatFile(fileName::String)
     _vars = Dict{String,Tuple{String,Int,Int,Float64}}()
     _blocks = Int[]
     _absc = ("", "")
-    fileInfo = strMatNormal(mat["Aclass"])
+    fileInfo = strMatNormalNEW(mat["Aclass"])
     # try catch causes some error. Need to fix.
     #= try
         fileInfo = strMatNormal(mat["Aclass"])
@@ -35,10 +61,11 @@ function DyMatFile(fileName::String)
         throw("File structure not supported!")
     end =#
 
+
     if fileInfo[2][begin:3] in ["1.1"]
         if fileInfo[4][begin:8] in ["binTrans"]
-            names = strMatTrans(mat["name"])
-            descr = strMatTrans(mat["description"])
+            names = strMatTransNEW(mat["name"])
+            descr = strMatTransNEW(mat["description"])
             for i in eachindex(names)
                 d = mat["dataInfo"][1, i]
                 x = mat["dataInfo"][2, i]
@@ -54,8 +81,8 @@ function DyMatFile(fileName::String)
                 end
             end
         elseif fileInfo[4][begin:9] in ["binNormal"]
-            names = strMatNormal(mat["name"])
-            descr = strMatNormal(mat["description"])
+            names = strMatNormalNEW(mat["name"])
+            descr = strMatNormalNEW(mat["description"])
             for i in eachindex(names)
                 d = mat["dataInfo"][1, i]
                 x = mat["dataInfo"][2, i]
@@ -76,7 +103,7 @@ function DyMatFile(fileName::String)
             throw("File structure not supported!")
         end
     elseif fileInfo[2][begin:3] in ["1.0"]
-        names = strMatNormal(mat["names"])
+        names = strMatNormalNEW(mat["names"])
         push!(_blocks, 0)
         mat["data_0"] = transpose(mat["data"])
         delete!(mat, "data")
