@@ -11,7 +11,7 @@ names = getNames(dyMat)
 @show description(dyMat,"revolute1.w");
 
 #Obtain data for plotting
-revoluteSpeedDer = data(dyMat,"revolute1.w")
+revoluteSpeed = data(dyMat,"revolute1.w")
 
 #Obtain corresponding time for the variable
 time = abscissa(dyMat,"revolute1.w")
