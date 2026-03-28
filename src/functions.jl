@@ -11,11 +11,10 @@ end
 function strMatNormalNEW(a)
     ret = Vector{String}()
     for s in a
-        s = replace(s,"\0" => "" )
-        s = replace(s," " => "" )
+        s = replace(s,"\0" => "" )  # OM
+        s = replace(s," " => "" )   # Dymola
         push!(ret,s)
     end
-@show ret
     ret
 end
 
@@ -27,12 +26,11 @@ function strMatTransNEW(a)
 # printstyled("sa = $(length(aVec))   $(z1)   $(z2)    $(size(aMat))\n",color=:blue)
     ret = Vector{String}()
     for i  = 1:z2
-        s1 = String(aMat[i,:])
-        s2 = replace(s1,"\0" => "" )
-        s3 = replace(s2," " => "" )
-        push!(ret,s3)
+        s = String(aMat[i,:])
+        s = replace(s,"\0" => "" )    # OM
+        s = replace(s," " => "" )     # Dymola
+        push!(ret,s)
     end
-# @show ret
     ret
 end
 
